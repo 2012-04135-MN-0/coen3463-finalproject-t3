@@ -1,0 +1,39 @@
+form(method='post', action='/view')
+              h5
+                strong Name:
+                center
+                  label 
+                    #{post.first_name}
+                    #{post.last_name}
+                      label
+              h5
+                strong Guild:
+                br
+                center 
+                  label(name='body') #{post.guild}
+                    label
+              h5
+                strong Message:
+                br
+                center 
+                  label(name='date_delivered') #{post.message}
+                    label
+              h5
+                strong Date & Time:
+                br
+                center 
+                  label(name='locations') #{post.createdAt}
+              p.control
+                a.button.is-primary(href= "/viewTutorial/" + post._id + "/updateTutorial") Update
+              p.control
+                a.button.is-primary(href= "/viewTutorial/" + post._id + "/delete") Delete
+              p.control
+               if(post.first_name=="Circuits")
+                a(href="/viewTutorialCircuits") View a Tutorials
+               if(post.first_name=="Electronics")
+                a(href="/viewTutorialElectronics") View a Tutorials
+               if(post.first_name=="Calculus")
+                a(href="/viewTutorialCalculus") View a Tutorials
+               if(post.first_name=="DSP")
+                a(href="/viewTutorialDSP") View a Tutorials
+   

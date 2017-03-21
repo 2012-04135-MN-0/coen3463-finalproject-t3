@@ -1,0 +1,30 @@
+extends layout
+
+block content
+   .container
+     br
+     if (user)
+       p.lead Hi, #{user.first_name}!
+       p You are currently logged in as : #{user.username} &nbsp; | &nbsp;
+        a(href="/logout") Logout
+        if(user.admin==true)
+         br
+         a(href="/addTutorial") Post a Tutorial
+         a(href="/updateTutorial") Update a Tutorial
+         a(href="/removeTutorial") Display Tutorials
+   .container
+        h1 Update Tutorial
+        p.lead Say something worthwhile here.
+        br
+        form(role='form', action="/viewTutorial/" + post._id + "/updateTutorial", method="post", style='max-width: 300px;')
+          .form-group
+            input.form-control(type='text', name="message", placeholder='Enter Message', value=post.message, required='')
+          .form-group
+            textarea.form(rows='5', placeholder="Enter Message", name='message', required='') #{post.message}
+
+          button.btn.btn-primary(type='submit') Add
+
+        form(action='/')
+          p.control
+          button.btn.btn-primary(type='submit') Cancel
+        br

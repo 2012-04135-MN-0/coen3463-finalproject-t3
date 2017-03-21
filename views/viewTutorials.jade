@@ -1,0 +1,23 @@
+extends layout
+
+block content
+   .container
+     br
+     if (user)
+       p.lead Hi, #{user.first_name}!
+       p You are currently logged in as : #{user.username} &nbsp; | &nbsp;
+        a(href="/logout") Logout
+        if(user.admin==true)
+         br
+         a(href="/addTutorial") Post a Tutorial
+     .column
+      table
+        thead
+         each tutorial, i in post
+          tr
+          td
+            a.red-text(href= "/viewTutorial/" + tutorial._id)= tutorial.message
+          td= tutorial.guild
+          td= tutorial.first_name
+          td= tutorial.last_name
+          td= tutorial.createdAt

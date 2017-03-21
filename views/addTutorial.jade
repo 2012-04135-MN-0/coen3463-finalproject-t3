@@ -1,0 +1,37 @@
+extends layout
+
+block content
+   .container
+     br
+     if (user)
+       p.lead Hi, #{user.first_name}!
+       p You are currently logged in as : #{user.username} &nbsp; | &nbsp;
+        a(href="/logout") Logout
+        if(user.admin==true)
+         br
+         if(user.guild=="Circuits Guild")
+          a(href="/viewTutorialCircuits") View Tutorials
+         if(user.guild=="Electronics Guild")
+          a(href="/viewTutorialElectronics") View Tutorials
+         if(user.guild=="Calculus Guild")
+          a(href="/viewTutorialCalculus") View Tutorials
+         if(user.guild=="DSP Guild")
+          a(href="/viewTutorialDSP") View Tutorials
+   .container
+        h1 Add Tutorial
+        p.lead Say something worthwhile here.
+        br
+        form(role='form', action="/addTutorial", method="post", style='max-width: 300px;')
+          .form-group
+            input.form-control(type='text', name="message", placeholder='Enter Message' required='')
+          .form-group
+            textarea.form(rows='5', placeholder="Enter Message", name='message', required='')
+
+          button.btn.btn-primary(type='submit') Add
+
+        form(action='/')
+          p.control
+          button.btn.btn-primary(type='submit') Cancel
+        br
+        p Not yet registered? &nbsp;
+         a(href="/register") Create an account
