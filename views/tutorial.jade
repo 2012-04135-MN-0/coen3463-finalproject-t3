@@ -1,4 +1,4 @@
-form(method='post', action='/view')
+form(method='post', action="/viewTutorial/" + post._id + "/comment")
               h5
                 strong Name:
                 center
@@ -23,10 +23,26 @@ form(method='post', action='/view')
                 br
                 center 
                   label(name='locations') #{post.createdAt}
-              p.control
-                a.button.is-primary(href= "/viewTutorial/" + post._id + "/updateTutorial") Update
-              p.control
-                a.button.is-primary(href= "/viewTutorial/" + post._id + "/delete") Delete
+              iframe(width='560', height='315', src=post.video, frameborder='0', allowfullscreen='allowfullscreen')
+              br
+              if(user.admin==true)
+                p.control
+                  a.button.is-primary(href= "/viewTutorial/" + post._id + "/updateTutorial") Update
+              if(user.admin==true)
+                p.control
+                  a.button.is-primary(href= "/viewTutorial/" + post._id + "/delete") Delete
+              each comments, i in comment
+                tr
+                td= comments.user
+                td= comments.commentMes
+                td= comments.createdAt
+                if(user.username==comments.username)
+                  td
+                    a.red-text(href= "/viewTutorial/" + post._id + "/" + comments._id + "/deleteComment")  delete
+                br
+              .form-group
+                input.form-control(type='text', name="comment", placeholder='Comment here', required='')
+              button.btn.btn-primary(type='submit') Comment
               p.control
                if(post.first_name=="Circuits")
                 a(href="/viewTutorialCircuits") View a Tutorials

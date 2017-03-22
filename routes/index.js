@@ -2,6 +2,7 @@ var express = require('express');
 var passport = require('passport');
 var Account = require('../models/user-schema');
 var post = require('../models/tutorial-schema');
+var comment = require('../models/comment-schema');
 var router = express.Router();
 
 
@@ -132,7 +133,6 @@ router.get('/viewTutorialCircuits', function(req, res) {
       user: req.user,
       post: tutorial
     });
-      console.log(post.guild)
   });
 });
 
@@ -144,7 +144,6 @@ router.get('/viewTutorialElectronics', function(req, res) {
       user: req.user,
       post: tutorial
     });
-      console.log(post.guild)
   });
 });
 
@@ -156,7 +155,6 @@ router.get('/viewTutorialCalculus', function(req, res) {
       user: req.user,
       post: tutorial
     });
-      console.log(post.guild)
   });
 });
 
@@ -168,17 +166,19 @@ router.get('/viewTutorialDSP', function(req, res) {
       user: req.user,
       post: tutorial
     });
-      console.log(post.guild)
   });
 });
 
 router.get('/viewTutorial/:tutorialId', function(req, res) {    
-    var tutorialId = req.params.tutorialId;
+    var tutorialId = req.params.tutorialId;  
     post.findOne({_id: tutorialId}, function(err, tutorial){
-      console.log(tutorial)
-      res.render('tutorial', {
-        title: tutorial.guild,
-        post: tutorial
+      comment.find({postId: tutorialId}, function(err, comments){
+        res.render('tutorial', {
+          title: tutorial.guild,
+          post: tutorial,
+          user: req.user,
+          comment: comments
+        });
       });
     }); 
 });
@@ -189,7 +189,8 @@ router.post('/addTutorial', function(req, res)
         message: req.body.message,
         guild: req.user.guild,
         first_name: req.user.first_name,
-        last_name: req.user.last_name
+        last_name: req.user.last_name,
+        video: req.body.video
   }).save(function(err, doc){
     if(err){
       console.log(err);
@@ -217,7 +218,8 @@ router.post('/viewTutorial/:tutorialId/updateTutorial', function(req, res) {
         message: req.body.message,
         guild: req.user.guild,
         first_name: req.user.first_name,
-        last_name: req.user.last_name
+        last_name: req.user.last_name,
+        video: req.body.video
     }
     post.update({_id: tutorialId}, {$set: newData}, function(err, result) {
       if(err) {
@@ -228,6 +230,32 @@ router.post('/viewTutorial/:tutorialId/updateTutorial', function(req, res) {
         res.redirect('/viewTutorial/' + tutorialId)
       }
     }); 
+});
+
+router.post('/viewTutorial/:tutorialId/comment', function(req, res) { 
+    var tutorialId = req.params.tutorialId;
+    new comment({        
+        commentMes: req.body.comment,
+        user: req.user.last_name,
+        postId: tutorialId,
+        username: req.user.username
+  }).save(function(err, doc){
+    if(err){
+      console.log(err);
+    } else {
+      console.log('data added');
+    }
+  });
+  res.redirect('/viewTutorial/' + tutorialId);
+});
+
+router.get('/viewTutorial/:tutorialId/:commentsId/deleteComment', function(req, res) {
+    var commentId = req.params.commentsId;
+    var tutorialId = req.params.tutorialId;
+    comment.findOneAndRemove({_id: commentId}, function(req, res){
+    console.log('data deleted');
+  });
+  res.redirect('/viewTutorial/' + tutorialId)
 });
 
 router.get('/viewTutorial/:tutorialId/delete', function(req, res) {

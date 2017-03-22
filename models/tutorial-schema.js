@@ -7,6 +7,7 @@ var Tutorial = new Schema({
     first_name: String,
     last_name: String,
     message: String,
+    video: String
 });
 
 Tutorial.plugin(timestamps);

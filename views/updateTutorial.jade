@@ -18,7 +18,7 @@ block content
         br
         form(role='form', action="/viewTutorial/" + post._id + "/updateTutorial", method="post", style='max-width: 300px;')
           .form-group
-            input.form-control(type='text', name="message", placeholder='Enter Message', value=post.message, required='')
+            input.form-control(type='text', name="video", placeholder='Enter Embedded Url', value=post.video required='')
           .form-group
             textarea.form(rows='5', placeholder="Enter Message", name='message', required='') #{post.message}
 
