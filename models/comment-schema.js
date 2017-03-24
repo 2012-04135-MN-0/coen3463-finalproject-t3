@@ -5,7 +5,8 @@ var mongoose = require('mongoose'),
 var Comment = new Schema({
     postId: String,
     commentMes: String,
-    user: String
+    user: String,
+    username: String
 });
 
 Comment.plugin(timestamps);

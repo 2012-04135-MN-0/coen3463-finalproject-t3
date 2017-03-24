@@ -27,17 +27,17 @@ form(method='post', action="/viewTutorial/" + post._id + "/comment")
               br
               if(user.admin==true)
                 p.control
-                  a.button.is-primary(href= "/viewTutorial/" + post._id + "/updateTutorial") Update
+                  a.button.is-primary(href= "/viewTutorial/" + post._id + "/updateTutorial") Update this tutorial
               if(user.admin==true)
                 p.control
-                  a.button.is-primary(href= "/viewTutorial/" + post._id + "/delete") Delete
+                  a.button.is-primary(href= "/viewTutorial/" + post._id + "/delete") Delete this tutorial
               each comments, i in comment
                 tr
                 td= comments.user
                 td= comments.commentMes
                 td= comments.createdAt
-                if(user.username==comments.username)
-                  td
+                td
+                  if(user.username==comments.username)
                     a.red-text(href= "/viewTutorial/" + post._id + "/" + comments._id + "/deleteComment")  delete
                 br
               .form-group

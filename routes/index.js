@@ -244,6 +244,7 @@ router.post('/viewTutorial/:tutorialId/comment', function(req, res) {
       console.log(err);
     } else {
       console.log('data added');
+      console.log(comment)
     }
   });
   res.redirect('/viewTutorial/' + tutorialId);
