@@ -1,55 +1,73 @@
-form(method='post', action="/viewTutorial/" + post._id + "/comment")
-              h5
+extends index
+
+block content
+   #layout.content.pure-g
+    #nav.pure-u
+     a.nav-menu-button(href='#') Menu
+     .nav-inner
+      li.pure-menu-heading Hi, #{user.first_name}!
+      form(method='post', action="/logout")
+       button.primary-button.pure-button LOGOUT
+      .pure-menu
+        ul.pure-menu-list
+          li.pure-menu-heading TUTORIAL
+          li.pure-menu-item
+            if(user.admin==true)
+              a.pure-menu-link(href='/addTutorial') Post
+          li.pure-menu-item
+            if(user.guild=="Circuits Guild")
+              a.pure-menu-link(href="/viewTutorialCircuits") View
+            if(user.guild=="Electronics Guild")
+              a.pure-menu-link(href="/viewTutorialElectronics") View
+            if(user.guild=="Calculus Guild")
+              a.pure-menu-link(href="/viewTutorialCalculus") View
+            if(user.guild=="DSP Guild")
+              a.pure-menu-link(href="/viewTutorialDSP") View
+    #list.pure-u-1
+        form(method='post', action="/viewTutorial/" + post._id + "/comment")
+          center
+              h5.white
                 strong Name:
                 center
-                  label 
-                    #{post.first_name}
-                    #{post.last_name}
+                  label #{post.first_name} #{post.last_name}
                       label
-              h5
+              h5.white
                 strong Guild:
                 br
                 center 
-                  label(name='body') #{post.guild}
+                  label #{post.guild}
                     label
-              h5
+              h5.white
                 strong Message:
                 br
                 center 
-                  label(name='date_delivered') #{post.message}
+                  label #{post.message}
                     label
-              h5
+              h5.white
                 strong Date & Time:
                 br
                 center 
                   label(name='locations') #{post.createdAt}
-              iframe(width='560', height='315', src=post.video, frameborder='0', allowfullscreen='allowfullscreen')
-              br
               if(user.admin==true)
                 p.control
                   a.button.is-primary(href= "/viewTutorial/" + post._id + "/updateTutorial") Update this tutorial
               if(user.admin==true)
                 p.control
                   a.button.is-primary(href= "/viewTutorial/" + post._id + "/delete") Delete this tutorial
-              each comments, i in comment
-                tr
-                td= comments.user
-                td= comments.commentMes
-                td= comments.createdAt
-                td
-                  if(user.username==comments.username)
-                    a.red-text(href= "/viewTutorial/" + post._id + "/" + comments._id + "/deleteComment")  delete
+          h4.white Comments:
+          each comments, i in comment
+              tr
+                td 
+                  a #{comments.user}: "#{comments.commentMes}"
+                if(user.username==comments.username)
+                  a.red-text(href= "/viewTutorial/" + post._id + "/" + comments._id + "/deleteComment")  delete
+              br
+          .form-group
                 br
-              .form-group
                 input.form-control(type='text', name="comment", placeholder='Comment here', required='')
-              button.btn.btn-primary(type='submit') Comment
-              p.control
-               if(post.first_name=="Circuits")
-                a(href="/viewTutorialCircuits") View a Tutorials
-               if(post.first_name=="Electronics")
-                a(href="/viewTutorialElectronics") View a Tutorials
-               if(post.first_name=="Calculus")
-                a(href="/viewTutorialCalculus") View a Tutorials
-               if(post.first_name=="DSP")
-                a(href="/viewTutorialDSP") View a Tutorials
-   
+                br
+                button.btn.btn-primary(type='submit') Comment
+                br  
+    #main.pure-u-1
+      center
+        iframe(width='720', height='405', src=post.video, frameborder='0', allowfullscreen='allowfullscreen')

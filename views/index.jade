@@ -1,20 +1,38 @@
-extends layout
+doctype html
+html
+  head
+    title= title
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='/stylesheets/email.css')
+  head
+   meta(charset='utf-8')
+   meta(name='viewport', content='width=device-width, initial-scale=1.0')
+   meta(name='description', content='A layout example that shows off a responsive email layout.')
+   title Email – Layout Examples – Pure
+   link(rel='stylesheet', href='https://unpkg.com/purecss@0.6.2/build/pure-min.css', integrity='sha384-', crossorigin='anonymous')
+   link(rel='stylesheet', href='/stylesheets/email.css')
 
+body(background='../images/black.jpg')
+   #layout.content.pure-g
+    #nav.pure-u
+     a.nav-menu-button(href='#') Menu
+     .nav-inner
+      li.pure-menu-heading Hi, #{user.first_name}!
+      form(method='post', action="/logout")
+       button.primary-button.pure-button LOGOUT
+      .pure-menu
+        ul.pure-menu-list
+          li.pure-menu-heading TUTORIAL
+          li.pure-menu-item
+            if(user.admin==true)
+              a.pure-menu-link(href='/addTutorial') Post
+          li.pure-menu-item
+            if(user.guild=="Circuits Guild")
+              a.pure-menu-link(href="/viewTutorialCircuits") View
+            if(user.guild=="Electronics Guild")
+              a.pure-menu-link(href="/viewTutorialElectronics") View
+            if(user.guild=="Calculus Guild")
+              a.pure-menu-link(href="/viewTutorialCalculus") View
+            if(user.guild=="DSP Guild")
+              a.pure-menu-link(href="/viewTutorialDSP") View
 block content
-   .container
-     br
-     if (user)
-       p.lead Hi, #{user.first_name}!
-       p You are currently logged in as : #{user.username} &nbsp; | &nbsp;
-        a(href="/logout") Logout
-        if(user.admin==true)
-         br
-         a(href="/addTutorial") Post a Tutorial
-        if(user.guild=="Circuits Guild")
-         a(href="/viewTutorialCircuits") View Tutorials
-        if(user.guild=="Electronics Guild")
-         a(href="/viewTutorialElectronics") View Tutorials
-        if(user.guild=="Calculus Guild")
-         a(href="/viewTutorialCalculus") View Tutorials
-        if(user.guild=="DSP Guild")
-         a(href="/viewTutorialDSP") View Tutorials

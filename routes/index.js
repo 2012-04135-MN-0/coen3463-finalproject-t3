@@ -110,7 +110,7 @@ router.post('/login', function(req, res, next)
      })(req, res, next);
  });
 
-router.get('/logout', function(req, res)
+router.post('/logout', function(req, res)
  {
     req.logout();
     res.redirect('/');
@@ -173,6 +173,7 @@ router.get('/viewTutorial/:tutorialId', function(req, res) {
     var tutorialId = req.params.tutorialId;  
     post.findOne({_id: tutorialId}, function(err, tutorial){
       comment.find({postId: tutorialId}, function(err, comments){
+       Account.findOne({first_name: tutorial.first_name})
         res.render('tutorial', {
           title: tutorial.guild,
           post: tutorial,
@@ -190,7 +191,8 @@ router.post('/addTutorial', function(req, res)
         guild: req.user.guild,
         first_name: req.user.first_name,
         last_name: req.user.last_name,
-        video: req.body.video
+        video: req.body.video,
+        tutorialNo: req.body.number
   }).save(function(err, doc){
     if(err){
       console.log(err);
@@ -207,6 +209,7 @@ router.get('/viewTutorial/:tutorialId/updateTutorial', function(req, res) {
       console.log(tutorial)
       res.render('updateTutorial', {
         title: tutorial.guild,
+          user: req.user,
         post: tutorial
       });
     }); 

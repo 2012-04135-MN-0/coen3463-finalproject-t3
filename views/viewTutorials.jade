@@ -1,23 +1,18 @@
-extends layout
+extends index
 
 block content
-   .container
-     br
-     if (user)
-       p.lead Hi, #{user.first_name}!
-       p You are currently logged in as : #{user.username} &nbsp; | &nbsp;
-        a(href="/logout") Logout
-        if(user.admin==true)
-         br
-         a(href="/addTutorial") Post a Tutorial
-     .column
-      table
+   #layout.content.pure-g
+    #list.pure-u-1
+     .container
+      .column
+       table
         thead
          each tutorial, i in post
           tr
-          td
-            a.red-text(href= "/viewTutorial/" + tutorial._id)= tutorial.message
-          td= tutorial.guild
-          td= tutorial.first_name
-          td= tutorial.last_name
-          td= tutorial.createdAt
+          .email-item.email-item-selected.pure-g
+           .pure-u
+            h5.email-name #{tutorial.first_name} #{tutorial.last_name} 
+            h4
+             a(href= "/viewTutorial/" + tutorial._id)= tutorial.message
+            p.email-desc
+              | #{tutorial.createdAt}

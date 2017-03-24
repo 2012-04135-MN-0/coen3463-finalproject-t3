@@ -1,9 +1,19 @@
-extends layout
+doctype html
+html
+  head
+    title= title
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(href='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css', rel='stylesheet', media='screen')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  block content
+body(background='../images/brown.jpg')
 
-block content
    .container
-        h1 Register Page
-        p.lead Say something worthwhile here.
+    center
+        h1 
+         strong Register Page
+        p.lead 
+         strong Say something worthwhile here.
         br
         form(role='form', action="/register",method="post", style='max-width: 300px;')
           .form-group

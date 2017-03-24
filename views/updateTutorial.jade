@@ -1,28 +1,21 @@
-extends layout
+extends index
 
 block content
-   .container
-     br
-     if (user)
-       p.lead Hi, #{user.first_name}!
-       p You are currently logged in as : #{user.username} &nbsp; | &nbsp;
-        a(href="/logout") Logout
-        if(user.admin==true)
-         br
-         a(href="/addTutorial") Post a Tutorial
-         a(href="/updateTutorial") Update a Tutorial
-         a(href="/removeTutorial") Display Tutorials
-   .container
-        h1 Update Tutorial
-        p.lead Say something worthwhile here.
+   #layout.content.pure-g
+    #list.pure-u-1
+      center
+        h1.white Update Tutorial
         br
-        form(role='form', action="/viewTutorial/" + post._id + "/updateTutorial", method="post", style='max-width: 300px;')
+        form(role='form', action="/addTutorial", method="post", style='max-width: 300px;')
+          br
           .form-group
             input.form-control(type='text', name="video", placeholder='Enter Embedded Url', value=post.video required='')
+          br
           .form-group
-            textarea.form(rows='5', placeholder="Enter Message", name='message', required='') #{post.message}
+            input.form-control(rows='5', placeholder="Enter Title", name='message', value=post.message required='')
+          br
 
-          button.btn.btn-primary(type='submit') Add
+          button.btn.btn-primary(type='submit') Update
 
         form(action='/')
           p.control

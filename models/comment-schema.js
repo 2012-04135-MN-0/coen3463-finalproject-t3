@@ -6,7 +6,8 @@ var Comment = new Schema({
     postId: String,
     commentMes: String,
     user: String,
-    username: String
+    username: String,
+    tutorialNo: String
 });
 
 Comment.plugin(timestamps);

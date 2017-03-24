@@ -1,37 +1,19 @@
-extends layout
+extends index
 
 block content
-   .container
+   #layout.content.pure-g
+    #list.pure-u-1
      br
-     if (user)
-       p.lead Hi, #{user.first_name}!
-       p You are currently logged in as : #{user.username} &nbsp; | &nbsp;
-        a(href="/logout") Logout
-        if(user.admin==true)
-         br
-         if(user.guild=="Circuits Guild")
-          a(href="/viewTutorialCircuits") View Tutorials
-         if(user.guild=="Electronics Guild")
-          a(href="/viewTutorialElectronics") View Tutorials
-         if(user.guild=="Calculus Guild")
-          a(href="/viewTutorialCalculus") View Tutorials
-         if(user.guild=="DSP Guild")
-          a(href="/viewTutorialDSP") View Tutorials
-   .container
+     .container
+      center
         h1 Add Tutorial
-        p.lead Say something worthwhile here.
         br
         form(role='form', action="/addTutorial", method="post", style='max-width: 300px;')
+          br
           .form-group
             input.form-control(type='text', name="video", placeholder='Enter Embedded Url' required='')
+          br
           .form-group
-            textarea.form(rows='5', placeholder="Enter Message", name='message', required='')
-
+            input.form-control(rows='5', placeholder="Enter Title", name='message', required='')
+          br
           button.btn.btn-primary(type='submit') Add
-
-        form(action='/')
-          p.control
-          button.btn.btn-primary(type='submit') Cancel
-        br
-        p Not yet registered? &nbsp;
-         a(href="/register") Create an account
