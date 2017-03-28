@@ -37,7 +37,7 @@ block content
             if(user.username==message.sender)
               h5.right Me: #{message.mes} 
             if(user.username!=message.sender)
-              h5.black #{students.first_name}: #{message.mes} 
+              h5.white #{students.first_name}: #{message.mes} 
         center
           form(method='post', action="/viewStudents/" + students.username + "/sendMessage")
            input.form-control(type='text', name="message", placeholder='Send message', required='')

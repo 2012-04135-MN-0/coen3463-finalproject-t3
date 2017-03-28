@@ -24,7 +24,7 @@ block content
             if(user.guild=="DSP Guild")
               a.pure-menu-link(href="/viewTutorialDSP") View
           li.pure-menu-item
-            a.pure-menu-link(href='/messages') Message
+            a.pure-menu-link(href='viewStudents') Students
     #list.pure-u-1
         form(method='post', action="/viewTutorial/" + post._id + "/comment")
           center
@@ -40,7 +40,7 @@ block content
                   label #{post.guild}
                     label
               h5.white
-                strong Message:
+                strong Title:
                 br
                 center 
                   label #{post.message}
@@ -70,8 +70,10 @@ block content
               br
               input.form-control(type='text', name="comment", placeholder='Comment here', required='')
               br
+              br
               button.btn.btn-primary(type='submit') Comment
               br  
     #main.pure-u-1
       center
+        br
         iframe(width='720', height='405', src=post.video, frameborder='0', allowfullscreen='allowfullscreen')

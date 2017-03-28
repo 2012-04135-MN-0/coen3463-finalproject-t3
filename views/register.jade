@@ -13,19 +13,24 @@ body(background='../images/brown.jpg')
         h1 
          strong Register Page
         p.lead Let us help you on your Academics.
-        br
         form(role='form', action="/register",method="post", style='max-width: 300px;')
-          .form-group
+            h5.white 
+              strong Username:
             input.form-control(type='text', name="username", placeholder='Enter Username' required='')
-          .form-group
+            h5.white 
+              strong Firstname:
             input.form-control(type='text', name="firstname", placeholder='Enter First Name' required='')
-          .form-group
+            h5.white 
+              strong Lastname:
             input.form-control(type='text', name="lastname", placeholder='Enter Last Name' required='')
-          .form-group
+            h5.white 
+              strong Course Yr & Sec:
             input.form-control(type='text', name="course", placeholder='Enter course year-section' required='')
-          .form-group
+            h5.white 
+              strong Password:
             input.form-control(type='password', name="password", placeholder='Password' required='')
-          .form-group
+            h5.white 
+              strong Guild:
             p.control
                 select.form-control(name='guild')
                   option Select Guild

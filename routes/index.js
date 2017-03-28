@@ -389,5 +389,13 @@ router.get('/viewStudents/', function(req, res) {
   });
 });
 
+router.get('/viewTutorial/:tutorialId/delete', function(req, res) {
+    var tutorialId = req.params.tutorialId;
+    post.findOneAndRemove({_id: tutorialId}, function(req, res){
+    console.log('data deleted')
+  });
+  res.redirect('/')
+});
+
 
 module.exports = router;
