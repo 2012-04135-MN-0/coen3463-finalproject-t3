@@ -1,0 +1,22 @@
+extends index
+
+block content
+   #layout.content.pure-g
+    #list.pure-u-1
+     .container
+      .column
+       center
+        br  
+        h3.white Students:
+       table
+        thead
+         each student, i in students
+          if(student.username!=user.username)
+            tr
+            .email-item.email-item-selected.pure-g
+             .pure-u
+              h5.black 
+               a(href= "/viewStudents/" + student.username)= student.first_name + " " + student.last_name
+              h4 #{student.guild} 
+              p.email-desc
+                | #{student.course}

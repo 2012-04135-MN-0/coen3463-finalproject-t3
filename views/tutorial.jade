@@ -23,6 +23,8 @@ block content
               a.pure-menu-link(href="/viewTutorialCalculus") View
             if(user.guild=="DSP Guild")
               a.pure-menu-link(href="/viewTutorialDSP") View
+          li.pure-menu-item
+            a.pure-menu-link(href='/messages') Message
     #list.pure-u-1
         form(method='post', action="/viewTutorial/" + post._id + "/comment")
           center
@@ -54,20 +56,22 @@ block content
               if(user.admin==true)
                 p.control
                   a.button.is-primary(href= "/viewTutorial/" + post._id + "/delete") Delete this tutorial
-          h4.white Comments:
-          each comments, i in comment
+          #indention
+            h4.white Comments:
+          #indent
+            each comments, i in comment
               tr
                 td 
                   a #{comments.user}: "#{comments.commentMes}"
                 if(user.username==comments.username)
                   a.red-text(href= "/viewTutorial/" + post._id + "/" + comments._id + "/deleteComment")  delete
               br
-          .form-group
-                br
-                input.form-control(type='text', name="comment", placeholder='Comment here', required='')
-                br
-                button.btn.btn-primary(type='submit') Comment
-                br  
+            .form-group
+              br
+              input.form-control(type='text', name="comment", placeholder='Comment here', required='')
+              br
+              button.btn.btn-primary(type='submit') Comment
+              br  
     #main.pure-u-1
       center
         iframe(width='720', height='405', src=post.video, frameborder='0', allowfullscreen='allowfullscreen')

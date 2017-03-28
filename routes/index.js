@@ -3,6 +3,7 @@ var passport = require('passport');
 var Account = require('../models/user-schema');
 var post = require('../models/tutorial-schema');
 var comment = require('../models/comment-schema');
+var message = require('../models/message-schema');
 var router = express.Router();
 
 
@@ -125,6 +126,19 @@ router.get('/addTutorial', function(req, res)
     });
  });
 
+router.get('/addMessage', function(req, res) {
+  var userGuild = req.user.guild;
+  console.log(userGuild);
+  Account.find({guild: userGuild}, function(err, users) {
+    res.render('addMessage',
+    { 
+        user: req.user,
+        Account: users,
+        title: "Add Message"
+    });
+  });
+ });
+
 router.get('/viewTutorialCircuits', function(req, res) {
   post.find({guild: "Circuits Guild"}, function(err, tutorial) {
     console.log('Tutorials Loaded!');
@@ -184,6 +198,46 @@ router.get('/viewTutorial/:tutorialId', function(req, res) {
     }); 
 });
 
+router.get('/viewMessages/:recMessagesSender', function(req, res) {    
+    var recSender = req.params.recMessagesSender;
+  Account.findOne({username: recSender}, function(err, users) {
+    message.find({receiver: recSender}, function(err, recMessages) {
+      message.find({sender: recSender}, function(err, sentMessages) {
+        console.log('Messages Loaded!');
+        res.render('message', {
+          title: 'Conversation',
+          user: users,
+          mesReceive: recMessages,
+          mesSent: sentMessages
+        });
+      });
+    });
+  });
+});
+
+router.get('/viewStudents/:receiver', function(req, res) {    
+  var receiver = req.params.receiver;
+  console.log(receiver)
+  var sender = req.user.username;
+  console.log(sender)
+  Account.findOne({username: receiver}, function(err, student) {
+    Account.findOne({username: sender}, function(err, users) {
+      message.find({ $or:[
+                        {sender: receiver, receiver: sender}, 
+                        {sender: sender, receiver: receiver}
+                      ]}, function(err, message) {
+        console.log('Messages Loaded!');
+        res.render('message', {
+          title: 'Conversation',
+          students: student,
+          user: users,
+          messages: message
+        });
+      });
+    });
+  });
+});
+
 router.post('/addTutorial', function(req, res)
  { 
     new post({        
@@ -203,10 +257,25 @@ router.post('/addTutorial', function(req, res)
   res.redirect('/');
 });
 
+router.post('/addMessage', function(req, res) {
+    new message({        
+        mes: req.body.mes,
+        receiver: req.body.receiver,
+        sender: req.user.username
+  }).save(function(err, doc){
+    if(err){
+      console.log(err);
+    } else {
+      console.log('data added');
+    }
+  });
+  res.redirect('viewMessages');
+});
+
 router.get('/viewTutorial/:tutorialId/updateTutorial', function(req, res) {  
     var tutorialId = req.params.tutorialId;
     post.findOne({_id: tutorialId}, function(err, tutorial){
-      console.log(tutorial)
+      console.log(tutorial);
       res.render('updateTutorial', {
         title: tutorial.guild,
           user: req.user,
@@ -253,6 +322,22 @@ router.post('/viewTutorial/:tutorialId/comment', function(req, res) {
   res.redirect('/viewTutorial/' + tutorialId);
 });
 
+router.post('/viewStudents/:studentName/sendMessage', function(req, res) {
+  var studentName = req.params.studentName;
+    new message({        
+        mes: req.body.message,
+        receiver: studentName,
+        sender: req.user.username
+  }).save(function(err, doc){
+    if(err){
+      console.log(err);
+    } else {
+      console.log('data added');
+    }
+  });
+  res.redirect('/viewStudents/' + studentName);
+});
+
 router.get('/viewTutorial/:tutorialId/:commentsId/deleteComment', function(req, res) {
     var commentId = req.params.commentsId;
     var tutorialId = req.params.tutorialId;
@@ -268,6 +353,40 @@ router.get('/viewTutorial/:tutorialId/delete', function(req, res) {
     console.log('data deleted')
   });
   res.redirect('/')
+});
+
+router.get('/viewMessages', function(req, res) {
+  var uname = req.user.username;
+  Account.findOne({username: uname}, function(err, users) {
+    message.find({receiver: uname}, function(err, recMessages) {
+      message.find({sender: uname}, function(err, sentMessages) {
+        console.log('Messages Loaded!');
+        console.log(recMessages);
+        console.log(sentMessages);
+        res.render('viewMessages', {
+          title: 'All Messages',
+          user: users,
+          mesReceive: recMessages,
+          mesSent: sentMessages
+        });
+      });
+    });
+  });
+});
+
+router.get('/viewStudents/', function(req, res) {
+  var uname = req.user.username;
+  var userGuild = req.user.guild;
+  Account.findOne({username: uname}, function(err, users) {
+    Account.find({guild: userGuild}, function(err, student) {
+        console.log('Students Loaded!');
+        res.render('viewStudents', {
+          title: 'Students',
+          user: users,
+          students: student
+        });
+    });
+  });
 });
 
 

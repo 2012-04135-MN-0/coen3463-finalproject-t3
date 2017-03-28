@@ -1,0 +1,37 @@
+extends index
+
+block content
+   #layout.content.pure-g
+    #list.pure-u-1
+     .container
+      .column
+       center
+        form(method='get', action="/addMessage")
+         button.primary-button.pure-button Compose a Message
+       center  
+        label.white Received Messages:
+       table
+        thead
+         each recMessages, i in mesReceive
+          tr
+          .email-item.email-item-selected.pure-g
+           .pure-u
+            h5.black 
+             a(href= "/viewMessages/" + recMessages.sender)= recMessages.sender
+            h4 #{recMessages.mes} 
+            p.email-desc
+              | #{recMessages.createdAt}
+       br
+       center
+        label.white Sent Messages:
+       table
+        thead
+         each sentMessages, i in mesSent
+          tr
+          .email-item.email-item-selected.pure-g
+           .pure-u
+            h5.black 
+             a(href= "/viewMessages/" + sentMessages.receiver)= sentMessages.receiver
+            h4 #{sentMessages.mes} 
+            p.email-desc
+              | #{sentMessages.createdAt}

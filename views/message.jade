@@ -1,0 +1,46 @@
+extends index
+
+block content
+   #layout.content.pure-g
+    #nav.pure-u
+     a.nav-menu-button(href='#') Menu
+     .nav-inner
+      li.pure-menu-heading Hi, #{user.first_name}!
+      form(method='post', action="/logout")
+       button.primary-button.pure-button LOGOUT
+      .pure-menu
+        ul.pure-menu-list
+          li.pure-menu-heading TUTORIAL
+          li.pure-menu-item
+            if(user.admin==true)
+              a.pure-menu-link(href='/addTutorial') Post
+          li.pure-menu-item
+            if(user.guild=="Circuits Guild")
+              a.pure-menu-link(href="/viewTutorialCircuits") View
+            if(user.guild=="Electronics Guild")
+              a.pure-menu-link(href="/viewTutorialElectronics") View
+            if(user.guild=="Calculus Guild")
+              a.pure-menu-link(href="/viewTutorialCalculus") View
+            if(user.guild=="DSP Guild")
+              a.pure-menu-link(href="/viewTutorialDSP") View
+          li.pure-menu-item
+            a.pure-menu-link(href='/viewStudents') Students
+    #list.pure-u-1
+     .container
+      .column
+       center
+        h3.white #{students.first_name} #{students.last_name}
+         br
+       #indent
+        each message, i in messages
+          tr
+            if(user.username==message.sender)
+              h5.right Me: #{message.mes} 
+            if(user.username!=message.sender)
+              h5.black #{students.first_name}: #{message.mes} 
+        center
+          form(method='post', action="/viewStudents/" + students.username + "/sendMessage")
+           input.form-control(type='text', name="message", placeholder='Send message', required='')
+           br
+           br
+           button.btn.btn-primary(type='submit') Send

@@ -1,0 +1,28 @@
+extends index
+
+block content
+   #layout.content.pure-g
+    #list.pure-u-1
+     br
+     .container
+      center
+        h1.white Compose a Message
+        br
+        form(role='form', action="/addMessage", method="post")
+          br
+          .form-group
+           strong
+            label.white Receiver:
+            br
+            select.form-control(name='receiver')
+                 each users, i in Account
+                  tr
+                   if(user.username!=users.username)
+                    option #{users.username}
+          br
+          strong
+            label.white Message:
+            br
+            textarea.textarea(placeholder='', name='mes')
+          br
+          button.btn.btn-primary(type='submit') Send
