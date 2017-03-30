@@ -5,6 +5,8 @@ var post = require('../models/tutorial-schema');
 var comment = require('../models/comment-schema');
 var message = require('../models/message-schema');
 var router = express.Router();
+var check = "";
+check = "false";
 
 
 router.get('/', function (req, res)
@@ -140,13 +142,18 @@ router.get('/addMessage', function(req, res) {
  });
 
 router.get('/viewTutorialCircuits', function(req, res) {
+  check = "false";
+  console.log(check);
+  post.find({guild: "Circuits Guild"}, function(err, tutorials) {
   post.find({guild: "Circuits Guild"}, function(err, tutorial) {
     console.log('Tutorials Loaded!');
     res.render('viewTutorials', {
       title: 'All Tutorials',
       user: req.user,
-      post: tutorial
+      post: tutorial,
+      posts: tutorials
     });
+  });
   });
 });
 
@@ -156,7 +163,8 @@ router.get('/viewTutorialElectronics', function(req, res) {
     res.render('viewTutorials', {
       title: 'All Tutorials',
       user: req.user,
-      post: tutorial
+      post: tutorial,
+      check: "false"
     });
   });
 });
@@ -167,18 +175,21 @@ router.get('/viewTutorialCalculus', function(req, res) {
     res.render('viewTutorials', {
       title: 'All Tutorials',
       user: req.user,
-      post: tutorial
+      post: tutorial,
+      check: "false"
     });
   });
 });
 
 router.get('/viewTutorialDSP', function(req, res) {
+  check = "false";
   post.find({guild: "DSP Guild"}, function(err, tutorial) {
     console.log('Tutorials Loaded!');
     res.render('viewTutorials', {
       title: 'All Tutorials',
       user: req.user,
-      post: tutorial
+      post: tutorial,
+      check: "false"
     });
   });
 });
@@ -196,23 +207,6 @@ router.get('/viewTutorial/:tutorialId', function(req, res) {
         });
       });
     }); 
-});
-
-router.get('/viewMessages/:recMessagesSender', function(req, res) {    
-    var recSender = req.params.recMessagesSender;
-  Account.findOne({username: recSender}, function(err, users) {
-    message.find({receiver: recSender}, function(err, recMessages) {
-      message.find({sender: recSender}, function(err, sentMessages) {
-        console.log('Messages Loaded!');
-        res.render('message', {
-          title: 'Conversation',
-          user: users,
-          mesReceive: recMessages,
-          mesSent: sentMessages
-        });
-      });
-    });
-  });
 });
 
 router.get('/viewStudents/:receiver', function(req, res) {    
@@ -255,21 +249,6 @@ router.post('/addTutorial', function(req, res)
     }
   });
   res.redirect('/');
-});
-
-router.post('/addMessage', function(req, res) {
-    new message({        
-        mes: req.body.mes,
-        receiver: req.body.receiver,
-        sender: req.user.username
-  }).save(function(err, doc){
-    if(err){
-      console.log(err);
-    } else {
-      console.log('data added');
-    }
-  });
-  res.redirect('viewMessages');
 });
 
 router.get('/viewTutorial/:tutorialId/updateTutorial', function(req, res) {  

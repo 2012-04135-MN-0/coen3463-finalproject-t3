@@ -52,7 +52,8 @@ input {
   width: 80%;
 }
 
-button {
+button,
+select {
   -moz-appearance: none;
   -webkit-appearance: none;
   -webkit-box-align: center;
